@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private float _spawnDelay;
-    [SerializeField] private List<Transform> _spawnPoints;
+    [SerializeField] private List<SpawnPoint> _spawnPoints;
     [SerializeField] private List<Transform> _targetPoints;
     [SerializeField] private Enemy _enemyPrefab;
 
@@ -22,12 +22,19 @@ public class EnemySpawner : MonoBehaviour
         {
             yield return delay;
             
-            Vector3 spawnPosition = _spawnPoints[Random.Range(0, _spawnPoints.Count)].position;
-            Vector3 targetPosition = _targetPoints[Random.Range(0, _targetPoints.Count)].position;
+            SpawnPoint spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Count)];
             
-            Enemy enemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity);
-            
-            enemy.SetTarget(targetPosition);
+            Spawn(spawnPoint);
         }
+    }
+
+    private void Spawn(SpawnPoint spawnPoint)
+    {
+        Vector3 spawnPosition = _spawnPoints[Random.Range(0, _spawnPoints.Count)].transform.position;
+        Vector3 targetPosition = _targetPoints[Random.Range(0, _targetPoints.Count)].position;//
+        
+        Enemy enemy = Instantiate(spawnPoint.EnemyPrefab, spawnPosition, Quaternion.identity);
+        
+        enemy.SetTarget(targetPosition);//
     }
 }
