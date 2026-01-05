@@ -1,22 +1,31 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Renderer))]
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed;
     
-    private Vector3 _targetPosition;
+    private Renderer _renderer;
+    
+    private protected Vector3 _targetPosition;
     
     private void Update()
     {
         Move();
     }
 
-    public void SetTarget(Vector3 targetPosition)
+    private void Awake()
+    {
+        _renderer = GetComponent<Renderer>();
+    }
+
+    public void Initialize(Vector3 targetPosition, Material material)
     {
         _targetPosition = targetPosition;
+        _renderer.material = material;
     }
     
-    private void Move()
+    private protected void Move()
     {
         Vector3 currentPosition = Vector3.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
         
