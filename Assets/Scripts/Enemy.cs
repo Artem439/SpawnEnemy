@@ -4,23 +4,23 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed;
     
-    private Vector3 _targetPosition;
+    private Transform _target;
     
     private void Update()
     {
         Move();
     }
 
-    public void SetPosition(Vector3 targetPosition)
+    public void SetPosition(Transform target)
     {
-        _targetPosition = targetPosition;
+        _target = target;
     }
     
     private void Move()
     {
-        Vector3 currentPosition = Vector3.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
+        Vector3 currentPosition = Vector3.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
         
         currentPosition.y = transform.position.y;
-        transform.position =  currentPosition;
+        transform.position = currentPosition;
     }
 }
