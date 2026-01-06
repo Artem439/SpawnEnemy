@@ -7,7 +7,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _spawnDelay;
     [SerializeField] private List<SpawnPoint> _spawnPoints;
     [SerializeField] private Enemy _enemyPrefab;
-    
+
     [SerializeField] private int _enemyCount;
     
     private int _counter = 0;
@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
         if (_enemyCount <= 0)
             _enemyCount = 1;
     }
-
+    
     private void Start()
     {
         StartCoroutine(SpawnRoutine());
@@ -42,10 +42,10 @@ public class EnemySpawner : MonoBehaviour
     private void Spawn(SpawnPoint spawnPoint)
     {
         Vector3 spawnPosition = _spawnPoints[Random.Range(0, _spawnPoints.Count)].transform.position;
-        Transform target = spawnPoint.Target;
+        NonPlayerCharacter target = spawnPoint.Target;
         
         Enemy enemy = Instantiate(spawnPoint.EnemyPrefab, spawnPosition, Quaternion.identity);
         
-        enemy.SetPosition(target);
+        enemy.SetTarget(target);
     }
 }

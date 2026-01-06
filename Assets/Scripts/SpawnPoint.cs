@@ -3,8 +3,8 @@
 public class SpawnPoint : MonoBehaviour
 {
     [SerializeField] private Enemy _enemy;
-    [SerializeField] private Transform _target;
+    [SerializeField] private NonPlayerCharacter _target;
     
     public Enemy EnemyPrefab => _enemy;
-    public Transform Target => _target;
+    public NonPlayerCharacter Target => _target;
 }
