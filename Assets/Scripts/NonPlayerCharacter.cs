@@ -1,34 +1,40 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class NonPlayerCharacter : Enemy
+public class NonPlayerCharacter : MonoBehaviour
 {
     [SerializeField] private List<Transform> _targetPoints;
+    [SerializeField] private float _speed;
     [SerializeField] private float _reachDistance = 0.2f;
-    [SerializeField] private Material _material;
     
-    private int _currentPointIndex = 0;
+    private Vector3 _targetPosition;
+
+    private int _targetPositionIndex = 0;
 
     private void Start()
     {
-        if (_targetPoints.Count > 0)
-            Initialize(_targetPoints[0].position, _material);
+        _targetPosition = _targetPoints[_targetPositionIndex].position;
     }
     
     private void Update()
     {
-        CheckTargetReached();
-        
+        UpdateTarget();
         Move();
     }
     
-    private void CheckTargetReached()
+    private void Move()
     {
-        if (transform.position == _targetPoints[_currentPointIndex].position)
-        {
-            _currentPointIndex = (_currentPointIndex + 1) % _targetPoints.Count;
+        Vector3 targetPosition = Vector3.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
+        
+        targetPosition.y = transform.position.y;
+        transform.position =  targetPosition;
+    }
+    
+    private void UpdateTarget()
+    {
+        Vector3 currentPosition = transform.position;
 
-            Initialize(_targetPoints[_currentPointIndex].position, _material);
-        }
+        if (currentPosition ==  _targetPosition)
+            _targetPosition = _targetPoints[_targetPositionIndex++].position;
     }
 }
